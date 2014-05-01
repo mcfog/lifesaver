@@ -1,27 +1,27 @@
 var fluently = require('fluently');
 
 
-var builder = (function b(base, name) {
+var builder = function b(base, name) {
 	//a quick dirty factory
 	var glob = require('glob');
 
-	var path = require('path').join(base, name);;
+	var path = require('path').join(base, name);
 	var constructor = require(path);
 
 	var factory = function(a,b,c,d,e,f,g,h) {
 		return new constructor(a,b,c,d,e,f,g,h);
 	};
 
-	var filelist = glob.sync(path + '/*.js')
+	var filelist = glob.sync(path + '/*.js');
 
 	filelist.forEach(function(file) {
 		var child = file.slice(base.length + name.length + 2, -3);
-		factory[child] = b(path, child)
+		factory[child] = b(path, child);
 	});
 
 	return factory;
 
-}).bind(null, __dirname + '/modules');
+}.bind(null, __dirname + '/modules');
 
 
 
@@ -37,7 +37,22 @@ var $S = module.exports = fluently()
 
 
 $S.config.loadDefault().then(function() {
-	$S.createDaemon().define;
+	var daemon = $S.createDaemon()
+		.define
+			.name('lifesaver.core')
+			.detector(
+				$S.detect.http({
+					socketPath: $S.config.workspace + '/core.sock',
+					method: 'HEAD'
+				})
+			)
+			.main(
+				$S.main.shell(__dirname + '/bin/daemon.js')
+			)
+		.endDefine
+	;
+
+	console.log(daemon);
 
 	// var hDetect = module.exports.detect.http({
 	// 					uri: 'unix://' + module.exports.config.workspace + '/core.sock',

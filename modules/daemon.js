@@ -6,8 +6,24 @@ var DaemonConfig = (function() {
 	}
 	var proto = DaemonConfig.prototype;
 
+	fluently(proto)
+		.tap(function(flu) {
+			flu.property = function(key) {
+				return this.define(key, function(value) {
+					this.endDefine[key] = value;
+
+					return this;
+				});
+			};
+		})
+		.property('name')
+		.property('detector')
+		.property('main')
+	;
+
 	return DaemonConfig;
 })();
+
 
 var Daemon = (function(parent) {
 	function Daemon () {

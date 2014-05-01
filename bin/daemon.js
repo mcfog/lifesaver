@@ -15,7 +15,7 @@ function p(obj, method) {
 	return Promise.promisify(method);
 }
 
-function noop() {};
+function noop() {}
 
 var path;
 
