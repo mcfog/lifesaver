@@ -13,7 +13,7 @@ var ShellMain = (function(parent) {
 
 	proto.boot = function() {
 		if(this.child) {
-			throw new Error('child exist');
+			return false;
 		}
 
 		var shell = this;
@@ -30,6 +30,7 @@ var ShellMain = (function(parent) {
 			child.on('exit', function(code, signal) {
 				process.removeListener('exit', kill);
 				shell.child = null;
+				shell.emit('down', code, signal);
 			});
 
 			child.stdout.on('readable', function() {
@@ -43,7 +44,9 @@ var ShellMain = (function(parent) {
 	};
 
 	proto.stop = function() {
-		this.child || this.child.kill();
+		if(this.child) {
+			this.child.kill();
+		}
 	};
 
 
