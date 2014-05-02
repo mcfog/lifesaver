@@ -1,3 +1,4 @@
+var debug = require('debug')('lifesaver');
 var Promise = require('bluebird');
 
 var Detector = (function() {
@@ -8,7 +9,15 @@ var Detector = (function() {
 	proto.constructor = Detector;
 
 	proto.detect = function() {
-		return Promise.cast(this._detect.apply(this, arguments));
+		var self = this;
+		return Promise.cast(this._detect.apply(this, arguments))
+			.then(function(result) {
+				debug('detect result=%s', result);
+				if(result !== true) {
+					self.emit('fail', result);
+				}
+			})
+		;
 	};
 	proto._detect = function() {
 		throw new Error('unimplemented');

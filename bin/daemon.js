@@ -28,7 +28,10 @@ config.loadDefault()
 		return p(fs, 'unlink')(path).catch(noop);
 	})
 	.then(function() {
-		var server = http.createServer(core);
+		return core(config);
+	})
+	.then(function(handler) {
+		var server = http.createServer(handler);
 
 		return p(server, 'listen')(path);
 	})

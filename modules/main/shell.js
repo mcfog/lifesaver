@@ -1,9 +1,10 @@
+var debug = require('debug')('lifesaver');
 var child_process = require('child_process');
 
 var ShellMain = (function(parent) {
 	function ShellMain (cmd, args, options) {
 		this.cmd = cmd;
-		this.args = args;
+		this.args = args || [];
 		this.options = options;
 
 		parent.apply(this, arguments);
@@ -20,6 +21,7 @@ var ShellMain = (function(parent) {
 
 		this.child = (function() {
 			var child = child_process.spawn(shell.cmd, shell.args, shell.options);
+			debug('spawn "%s %s" pid=%s', shell.cmd, shell.args.join(' '), child.pid);
 
 			var kill = function() {
 				child.kill();
@@ -29,6 +31,8 @@ var ShellMain = (function(parent) {
 
 			child.on('exit', function(code, signal) {
 				process.removeListener('exit', kill);
+
+				debug('child %s down', child.pid);
 				shell.child = null;
 				shell.emit('down', code, signal);
 			});

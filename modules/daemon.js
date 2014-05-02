@@ -19,6 +19,11 @@ var DaemonConfig = (function() {
 		.property('name')
 		.property('detector')
 		.property('main')
+		.define('on', function(key, evtName, handler) {
+			this.endDefine[key].on(evtName, handler.bind(this.endDefine));
+
+			return this;
+		})
 	;
 
 	return DaemonConfig;
