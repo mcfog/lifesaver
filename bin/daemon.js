@@ -21,8 +21,8 @@ var path;
 
 config.loadDefault()
 	.then(function() {
-		path = config.workspace + '/core.sock';
-		return p(mkdirp)(config.workspace, 0755).catch(noop);
+		path = config.workspace + '/run/core.sock';
+		return p(mkdirp)(config.workspace + '/run', 0755).catch(noop);
 	})
 	.then(function() {
 		return p(fs, 'unlink')(path).catch(noop);

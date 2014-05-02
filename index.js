@@ -35,31 +35,25 @@ var $S = module.exports = fluently()
 
 	.getTarget();
 
+// module.exports = function($S) {
 
-$S.config.loadDefault().then(function() {
-	var daemon = $S.createDaemon()
-		.define
-			.name('lifesaver.core')
-			.detector(
-				$S.detect.http({
-					socketPath: $S.config.workspace + '/core.sock',
-					method: 'HEAD'
-				})
-			)
-			.main(
-				$S.main.shell(__dirname + '/bin/daemon.js')
-			)
-		.endDefine
-	;
-
-	console.log(daemon);
-
-	// var hDetect = module.exports.detect.http({
-	// 					uri: 'unix://' + module.exports.config.workspace + '/core.sock',
-	// 					method: 'HEAD'
-	// 				});
-
-	// var main = module.exports.main.shell(__dirname + '/bin/daemon.js');
-
-	// main.boot();
-}).done();
+// 	return $S.createDaemon()
+// 		.define
+// 			.name('lifesaver.core')
+// 			.detector(
+// 				$S.detect.http({
+// 					uri: 'unix://' + $S.config.workspace + '/run/core.sock',
+// 					method: 'HEAD'
+// 				})
+// 			)
+// 			.main(
+// 				$S.main.shell(__dirname + '/bin/daemon.js')
+// 			)
+// 			// .on('detector:down', 'boot')
+// 			// .on('boot:fail', 'retry', {
+// 			// 	wait: 3000,
+// 			// 	max_tries: 10
+// 			// })
+// 			// .on('boot:fail', 'panic')
+// 		.endDefine;
+// };

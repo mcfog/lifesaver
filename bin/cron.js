@@ -1,9 +1,25 @@
 #!/usr/bin/env node
 var fs = require('fs');
 var Promise = require('bluebird');
+var prequest = Promise.promisify(require('request'));
 var config = require('../lib/config');
+var debug = require('debug')('lifesaver');
 
+config.loadDefault()
+	.then(function() {
+		return prequest({
+			socketPath: config.workspace + '/run/core.sock',
+			uri: 'http://lifesaver.localhost/cron',
+			method: 'POST',
+			timeout: 5000
+		});
+	})
+	.error(function(e) {
+		debug('daemon down, rebooting daemon...([%s]%s)', e.name, e.message);
 
-config.loadDefault().then(function() {	
-	console.log(JSON.stringify(config));
-});
+		//fork and exit
+		require('child_process').fork(__dirname + '/daemon');
+		process.exit(0);
+	})
+	.done()
+;
