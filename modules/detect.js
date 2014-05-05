@@ -12,13 +12,20 @@ var Detector = (function(parent) {
 		var self = this;
 		return Promise.cast(this._detect.apply(this, arguments))
 			.then(function(result) {
-				debug('detect result=%s', result);
 				if(result !== true) {
 					self.emit('fail', result);
 				}
 			})
+			.catch(function(e) {
+				self.emit('fail', e);
+			})
+			.finally(function(arg) {
+				debug('detect %s finished', self.name);
+			})
+			.done()
 		;
 	};
+
 	proto._detect = function() {
 		throw new Error('unimplemented');
 	};
