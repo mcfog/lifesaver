@@ -19,10 +19,6 @@ var Detector = (function(parent) {
 			.catch(function(e) {
 				self.emit('fail', e);
 			})
-			.finally(function(arg) {
-				debug('detect %s finished', self.name);
-			})
-			.done()
 		;
 	};
 
