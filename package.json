@@ -23,6 +23,6 @@
     "glob": "^3.2.9",
     "request": "^2.34.0",
     "eventemitter2": "^0.4.13",
-    "fluently": "0.0.2"
+    "fluently": "^0.0.3"
   }
 }
