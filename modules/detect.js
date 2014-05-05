@@ -1,11 +1,11 @@
 var debug = require('debug')('lifesaver');
 var Promise = require('bluebird');
 
-var Detector = (function() {
+var Detector = (function(parent) {
 	function Detector () {
 
 	}
-	var proto = Detector.prototype;
+	var proto = Detector.prototype = Object.create(parent.prototype);
 	proto.constructor = Detector;
 
 	proto.detect = function() {
@@ -24,6 +24,6 @@ var Detector = (function() {
 	};
 
 	return Detector;
-})();
+})(require('eventemitter2').EventEmitter2);
 
 module.exports = Detector;
