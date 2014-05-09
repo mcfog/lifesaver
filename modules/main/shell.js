@@ -2,59 +2,59 @@ var debug = require('debug')('lifesaver');
 var child_process = require('child_process');
 
 var ShellMain = (function(parent) {
-	function ShellMain (cmd, args, options) {
-		this.cmd = cmd;
-		this.args = args || [];
-		this.options = options;
+    function ShellMain (cmd, args, options) {
+        this.cmd = cmd;
+        this.args = args || [];
+        this.options = options;
 
-		parent.apply(this, arguments);
-	}
-	var proto = ShellMain.prototype = Object.create(parent.prototype);
-	proto.constructor = ShellMain;
+        parent.apply(this, arguments);
+    }
+    var proto = ShellMain.prototype = Object.create(parent.prototype);
+    proto.constructor = ShellMain;
 
-	proto.boot = function() {
-		if(this.child) {
-			return false;
-		}
+    proto.boot = function() {
+        if(this.child) {
+            return false;
+        }
 
-		var shell = this;
+        var shell = this;
 
-		this.child = (function() {
-			var child = child_process.spawn(shell.cmd, shell.args, shell.options);
-			debug('spawn "%s %s" pid=%s', shell.cmd, shell.args.join(' '), child.pid);
+        this.child = (function() {
+            var child = child_process.spawn(shell.cmd, shell.args, shell.options);
+            debug('spawn "%s %s" pid=%s', shell.cmd, shell.args.join(' '), child.pid);
 
-			var kill = function() {
-				child.kill();
-			};
+            var kill = function() {
+                child.kill();
+            };
 
-			process.on('exit', kill);
+            process.on('exit', kill);
 
-			child.on('exit', function(code, signal) {
-				process.removeListener('exit', kill);
+            child.on('exit', function(code, signal) {
+                process.removeListener('exit', kill);
 
-				debug('child %s down', child.pid);
-				shell.child = null;
-				shell.emit('down', code, signal);
-			});
+                debug('child %s down', child.pid);
+                shell.child = null;
+                shell.emit('down', code, signal);
+            });
 
-			child.stdout.on('readable', function() {
-				shell.emit('log:stdout', child.stdout.read());
-			});
+            child.stdout.on('readable', function() {
+                shell.emit('log:stdout', child.stdout.read());
+            });
 
-			child.stderr.on('readable', function() {
-				shell.emit('log:stderr', child.stderr.read());
-			});
-		})();
-	};
+            child.stderr.on('readable', function() {
+                shell.emit('log:stderr', child.stderr.read());
+            });
+        })();
+    };
 
-	proto.stop = function() {
-		if(this.child) {
-			this.child.kill();
-		}
-	};
+    proto.stop = function() {
+        if(this.child) {
+            this.child.kill();
+        }
+    };
 
 
-	return ShellMain;
+    return ShellMain;
 })(require('../main'));
 
 module.exports = ShellMain;
