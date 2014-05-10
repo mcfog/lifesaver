@@ -1,4 +1,3 @@
-var debug = require('debug')('lifesaver');
 var Promise = require('bluebird');
 
 var Detector = (function(parent) {

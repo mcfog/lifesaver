@@ -25,7 +25,7 @@ var builder = function b(base, name) {
 
 
 
-var $S = module.exports = fluently()
+module.exports = fluently()
     .defineObj({
         detect: builder('detect'),
         main: builder('main'),

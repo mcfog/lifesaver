@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-var fs = require('fs');
 var Promise = require('bluebird');
 var prequest = Promise.promisify(require('request'));
 var config = require('../lib/config');
