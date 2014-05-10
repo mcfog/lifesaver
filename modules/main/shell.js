@@ -38,11 +38,11 @@ var ShellMain = (function(parent) {
             });
 
             child.stdout.on('readable', function() {
-                shell.emit('log:stdout', child.stdout.read());
+                shell.emit('log', 'info', child.stdout.read());
             });
 
             child.stderr.on('readable', function() {
-                shell.emit('log:stderr', child.stderr.read());
+                shell.emit('log', 'warn', child.stderr.read());
             });
         })();
     };

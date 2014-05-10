@@ -1,7 +1,6 @@
 var Main = (function(parent) {
     function Main () {
         parent.call(this, {
-
         });
     }
     var proto = Main.prototype = Object.create(parent.prototype);
@@ -10,7 +9,7 @@ var Main = (function(parent) {
     proto.boot = function() {
         throw new Error('unimplemented');
     };
-    proto.stop = function(arg) {
+    proto.stop = function() {
         throw new Error('unimplemented');
     };
 

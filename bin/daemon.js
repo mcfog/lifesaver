@@ -45,7 +45,7 @@ config.loadDefault()
         var server = net.createServer(function(socket) {
             sockets.push(socket);
             socket.on('end', function() {
-                var idx = sockets.indeOf(socket);
+                var idx = sockets.indexOf(socket);
                 if(-1 === idx) return;
                 sockets.splice(idx, 1);
             });
