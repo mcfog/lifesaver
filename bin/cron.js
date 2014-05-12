@@ -10,7 +10,7 @@ config.loadDefault()
         debug('cron request post to %s', path);
         return prequest({
             socketPath: path,
-            uri: 'http://lifesaver.localhost/cron',
+            uri: 'http://localhost/cron',
             method: 'POST',
             timeout: 5000
         });
