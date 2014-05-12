@@ -17,6 +17,8 @@ var ShellMain = (function(parent) {
             return false;
         }
 
+        delete this.stop;
+
         var shell = this;
 
         this.child = (function() {
@@ -44,11 +46,15 @@ var ShellMain = (function(parent) {
             child.stderr.on('readable', function() {
                 shell.emit('log', 'warn', child.stderr.read());
             });
+
+            return child;
         })();
     };
 
     proto.stop = function() {
+        this.stop = true;
         if(this.child) {
+            debug('kill %s', this.child.pid);
             this.child.kill();
         }
     };

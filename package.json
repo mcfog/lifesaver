@@ -1,10 +1,14 @@
 {
   "name": "lifesaver",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "lifesaver",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
+  },
+  "bin": {
+    "lifesaver": "bin/command.js",
+    "lifesaver-cron": "bin/cron.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +24,7 @@
     "bluebird": "^1.2.4",
     "cliff": "^0.1.8",
     "debug": "^0.8.1",
+    "director": "^1.2.3",
     "eventemitter2": "^0.4.13",
     "fluently": "^0.0.3",
     "glob": "^3.2.9",
