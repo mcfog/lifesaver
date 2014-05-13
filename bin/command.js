@@ -39,6 +39,10 @@ on(':namereboot', 'reboot the daemon', function (name) {
     return [request('post', '/daemon/' + name + '/reboot')];
 });
 
+on(':nameremove', 'remove the daemon temporaryly', function (name) {
+    return [request('post', '/daemon/' + name + '/remove')];
+});
+
 on('add:path', 'register a new daemon', function (path) {
     return [p(fs, 'stat')(path)
         .then(function (stat) {
