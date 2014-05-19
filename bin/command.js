@@ -99,6 +99,7 @@ function request(method, uri) {
                 err.statusCode = res.statusCode;
                 err.headers = res.headers;
                 err.body = res.body;
+                console.error(err);
                 return Promise.reject(err);
             }
 

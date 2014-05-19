@@ -62,7 +62,10 @@ config.loadDefault()
         return p(server, 'listen')(coreSockPath);
     })
     .then(function() {
-        return p(fs, 'chmod')(coreSockPath, 0777);
+        return p(fs, 'chmod')(coreSockPath, 0666);
+    })
+    .catch(function(error) {
+        console.error(error, error.stack);
     })
     .done()
 ;
