@@ -1,6 +1,6 @@
 {
   "name": "lifesaver",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "lifesaver",
   "main": "index.js",
   "scripts": {
