@@ -25,7 +25,11 @@ config.loadDefault()
         coreSockPath = config.workspace + '/run/core.sock';
         debugSockPath = config.workspace + '/run/debug.sock';
 
-        return p(mkdirp)(config.workspace + '/run', 0755).catch(noop);
+        return Promise.join(
+            p(mkdirp)(config.workspace + '/run', 0755),
+            p(mkdirp)(config.workspace + '/daemon', 0755)
+        )
+            .catch(noop);
     })
     .then(function() {
         var unlink = p(fs, 'unlink');
